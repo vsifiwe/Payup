@@ -1,0 +1,21 @@
+{
+  "name": "payup",
+  "version": "1.0.0",
+  "description": "PayPal & Flutterwave demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Manzi Asifiwe",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "flutterwave-node-v3": "^1.0.8",
+    "paypal-rest-sdk": "^1.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}

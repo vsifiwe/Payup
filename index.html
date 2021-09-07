@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PayPal Node App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+
+
+
+<body style="background-color:  #F1F6FE;">
+
+    <div class="container">
+        <div class="row py-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>You send</h4>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-8"><input type="number" class="form-control m-2" id="amount"
+                                        oninput="calculate()"></div>
+                                <div class="col-4">
+                                    <select onchange="anothercalc(this);" class="form-select" id="id1">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>You Receive</h4>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-8">
+                                    <input type="text" class="form-control m-2" id="receive" disabled>
+                                </div>
+                                <div class="col-4">
+                                    <select onchange="anothercalc(this);" class="form-select" id="id2">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="row my-3">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary" onclick="payPal()">PayPal</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-warning" onclick="momo()">Momo / Card</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h5 style="color: #DC1979">Calculator</h5>
+                <h4>Send money and Receive money with our solution.</h4>
+                <h5 style="color: #DC1979">Quickly purchase with us in an instance</h5>
+                <p class="lead">Become on of our customer and never miss a payment from today</p>
+                <h5 style="color: #DC1979;">Easily withdraw your money</h5>
+                <p class="lead">Withdraw your cash to a card or bank account in a few clicks</p>
+            </div>
+        </div>
+        <h5 style="color: #DC1979;">HOW WE ARE</h5>
+        <h4>Our Benefits</h4>
+        <div class="row">
+            <div class="col">
+                <h1>
+                    <i class="bi bi-credit-card-2-front-fill  fa-5x"></i>
+                </h1>
+                <h5 style="color: #DC1979;">Payment options</h5>
+                <p class="lead">Multiple payment Methos: Visa, Mastercard, Bank transfer ( SWIFT, Mpesa, Faster
+                    Payments).</p>
+            </div>
+            <div class="col">
+                <h1>
+                    <i class="bi bi-shield-check"></i>
+                </h1>
+                <h5 style="color: #DC1979;">Strong security</h5>
+                <p class="lead">Protection against some attacks, with customers transfering money, and compliance with
+                    PCI DSS
+                    standards to safeguard it.</p>
+            </div>
+            <div class="col">
+                <h1>
+                    <i class="bi bi-clock-history"></i>
+                </h1>
+                <h5 style="color: #DC1979;">24 / 7</h5>
+                <p class="lead">Dedicated support via email, phone and live chat around the clock to answer your
+                    questions at any
+                    time.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let rates = [
+            {
+                "currency": "USD",
+                "rate": 0.95
+            },
+            {
+                "currency": "EUR",
+                "rate": 0.9
+            },
+            {
+                "currency": "RWF",
+                "rate": 0.75
+            }
+        ];
+
+        let select1 = document.getElementById("id1");
+        let select2 = document.getElementById("id2");
+        rates.forEach(e => {
+            console.log(e);
+            var opt = document.createElement('option');
+            opt.value = e.rate;
+            opt.innerHTML = e.currency;
+            select1.appendChild(opt);
+            // select2.appendChild(opt);
+        });
+
+        rates.forEach(e => {
+            console.log(e);
+            var opt = document.createElement('option');
+            opt.value = e.rate;
+            opt.innerHTML = e.currency;
+            // select1.appendChild(opt);
+            select2.appendChild(opt);
+        });
+
+
+        let payPal = function () {
+            let amount = document.getElementById('amount').value;
+
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = `/paypal?amount=${amount}`;
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        let momo = function () {
+
+            FlutterwaveCheckout({
+                public_key: "FLWPUBK-c6ee262b3190713b7d70a8ee633a0e40-X",
+                tx_ref: "AK_" + Math.floor((Math.random() * 1000000000) + 1),
+                amount: document.getElementById("amount").value,
+                currency: "RWF",
+
+                payment_options: "mobilemoney",
+
+                customer: {
+                    email: "asifiwemanzi@gmail.com",
+                    phonenumber: "250788427257",
+                    name: "Manzi Asifiwe",
+                },
+
+                callback: (data) => { // specified callback function
+                    //console.log(data);
+                    const reference = data.tx_ref;
+                    alert('Payment complete! Reference: ' + reference);
+                },
+
+                customizations: {
+                    title: "Test App",
+                    description: "FlutterWave Integration in Javascript."
+
+                    // logo: "flutterwave/usecover.gif",
+                },
+            });
+        }
+
+
+
+        let calculate = function () {
+            // let rec_amount = document.getElementById('amount').value * document;
+            document.getElementById("receive").value = "Select a currency";
+        }
+
+        let anothercalc = function (option) {
+            let rec_am = document.getElementById('amount').value * option.value;
+            document.getElementById("receive").value = rec_am;
+        }
+    </script>
+
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
