@@ -17,4 +17,4 @@ To install this project.
 
 **Demo**
 
-![Screenshot 1](https://github.com/vsifiwe/DUKA-Challenge-Mobile-TODO/blob/main/Screenshots/1.jpeg)
+![Screenshot 1](https://raw.githubusercontent.com/vsifiwe/Payup/main/Screen/1.png)
